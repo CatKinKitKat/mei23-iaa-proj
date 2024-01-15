@@ -1,16 +1,16 @@
-import pandas as pd
-import matplotlib.pyplot as plt
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
 from scipy.stats.mstats import winsorize
 from sklearn.preprocessing import RobustScaler
 
 
 def load_data():
     home = Path.home()
-    red_raw_path = home / "Desktop" / "56870" / \
-        "code" / "data" / "raw" / "red_wine.csv"
-    white_raw_path = home / "Desktop" / "56870" / \
-        "code" / "data" / "raw" / "white_wine.csv"
+    red_raw_path = home / "Desktop" / "56870" / "code" / "data" / "raw" / "red_wine.csv"
+    white_raw_path = home / "Desktop" / "56870" / "code" / "data" / "raw" / "white_wine.csv"
 
     red_wine = pd.read_csv(red_raw_path)
     white_wine = pd.read_csv(white_raw_path)
@@ -33,12 +33,13 @@ def parse_and_clean(data):
 def eda(data, wine_type):
     print(data.describe())
 
-    fig = data.hist(figsize=(15, 10))
-    plt.show()
+    for col in data.columns:
+        sns.histplot(data[col], kde=True)
+        plt.title(f'Histogram of {col}')
 
     fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_analysis.png"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
-    fig[0][0].figure.savefig(fig_save_path)
+    plt.savefig(fig_save_path)
 
 
 def handle_outliers(data):
@@ -84,12 +85,9 @@ def main():
 
     merged_wine = merge_datasets(red_wine, white_wine)
 
-    red_export_path = home / "Desktop" / "56870" / "code" / \
-        "data" / "parsed" / "red_wine_processed.csv"
-    white_export_path = home / "Desktop" / "56870" / "code" / \
-        "data" / "parsed" / "white_wine_processed.csv"
-    merged_export_path = home / "Desktop" / "56870" / "code" / \
-        "data" / "parsed" / "merged_wine_processed.csv"
+    red_export_path = home / "Desktop" / "56870" / "code" / "data" / "parsed" / "red_wine_processed.csv"
+    white_export_path = home / "Desktop" / "56870" / "code" / "data" / "parsed" / "white_wine_processed.csv"
+    merged_export_path = home / "Desktop" / "56870" / "code" / "data" / "parsed" / "merged_wine_processed.csv"
 
     red_wine.to_csv(red_export_path, index=False)
     white_wine.to_csv(white_export_path, index=False)
