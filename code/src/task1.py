@@ -32,6 +32,7 @@ def feature_importance_plot(model, x):
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(fig_save_path)
+    plt.close()
 
 
 def main():

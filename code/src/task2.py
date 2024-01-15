@@ -31,6 +31,7 @@ def confusion_matrix_heatmap(y_test, y_pred, name):
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(fig_save_path)
+    plt.close()
 
 
 def main():

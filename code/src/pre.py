@@ -31,8 +31,6 @@ def parse_and_clean(data):
 
 
 def eda(data, wine_type, fig_size=(10, 6)):
-    print(data.describe())
-
     for col in data.columns:
         plt.figure(figsize=fig_size)
         sns.histplot(data[col], kde=True)
@@ -44,6 +42,7 @@ def eda(data, wine_type, fig_size=(10, 6)):
         plt.savefig(fig_save_path)
         plt.close()
 
+
 def correlation(data, wine_type, heatmap_size=(10, 8)):
     corr = data.corr()
     plt.figure(figsize=heatmap_size)
@@ -53,6 +52,37 @@ def correlation(data, wine_type, heatmap_size=(10, 8)):
     fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_correlation.jpg"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(fig_save_path)
+    plt.close()
+
+
+def outlier_table(data, wine_type, quantiles=[0.05, 0.95]):
+    out_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "tables" / f"{wine_type}_outliers.csv"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    table = pd.DataFrame()
+    table["column"] = data.columns
+
+    outlier_rows = pd.Series([False] * len(data))
+
+    for col in data.columns:
+        q = data[col].quantile(quantiles)
+        column_outliers = (data[col] < q[quantiles[0]]) | (data[col] > q[quantiles[1]])
+        table.loc[table["column"] == col, "outliers"] = column_outliers.sum()
+
+        outlier_rows = outlier_rows | column_outliers
+
+    total_outliers = outlier_rows.sum()
+
+    total_row = pd.DataFrame({"column": ["total"], "outliers": [total_outliers]})
+    table = pd.concat([table, total_row], ignore_index=True)
+
+    table.to_csv(out_path)
+
+
+def describe_table(data, wine_type):
+    out_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "tables" / f"{wine_type}_describe.csv"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    table = data.describe().T
+    table.to_csv(out_path)
 
 
 def handle_outliers(data):
@@ -85,15 +115,17 @@ def main():
     red_wine = parse_and_clean(red_wine)
     white_wine = parse_and_clean(white_wine)
 
-    print("Red Wine Data Analysis:")
     eda(red_wine, "red")
-    print("\nWhite Wine Data Analysis:")
     eda(white_wine, "white")
 
-    print("\nRed Wine Correlation Heatmap:")
     correlation(red_wine, "red")
-    print("\nWhite Wine Correlation Heatmap:")
     correlation(white_wine, "white")
+
+    describe_table(red_wine, "red")
+    describe_table(white_wine, "white")
+
+    outlier_table(red_wine, "red")
+    outlier_table(white_wine, "white")
 
     red_wine = handle_outliers(red_wine)
     white_wine = handle_outliers(white_wine)

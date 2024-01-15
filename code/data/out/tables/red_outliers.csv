@@ -1,0 +1,14 @@
+,column,outliers
+0,fixed acidity,134.0
+1,volatile acidity,137.0
+2,citric acid,64.0
+3,residual sugar,141.0
+4,chlorides,142.0
+5,free sulfur dioxide,112.0
+6,total sulfur dioxide,125.0
+7,density,137.0
+8,pH,138.0
+9,sulphates,132.0
+10,alcohol,121.0
+11,quality,73.0
+12,total,773.0

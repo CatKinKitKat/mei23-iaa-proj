@@ -1,4 +1,4 @@
-%! Author = gonca
+%! Author = Gonçalo Candeias Amaro
 %! Date = 15 Jan 2024
 
 \documentclass{article}
@@ -35,19 +35,23 @@
 
     As colunas de atributos são todas numéricas. Os valores são todos float64 ou int32.
 
-    Foi feito uma inspeção rápida onde se encontrou que havia \textit{outliers} em algumas colunas, e três valores nulos no conjunto de dados de vinhos brancos e vermelhos.
+    Foi feito uma inspeção rápida onde se encontrou que havia \textit{outliers} em algumas colunas, e valores nulos no conjunto de dados de vinhos brancos e vermelhos.
 
-    Como a imagem abaixo mostra, no vinho branco, na acidez fixa, existem um caso desses \textit{outliers}:
+    Como na tabela abaixo, podemos observar que os conjuntos de dados possuem valores nulos ou ausentes.
 
-    \begin{figure}
+    \begin{table}[ht]
         \centering
-        \begin{minipage}{0.90\textwidth}
-            \centering
-            \includegraphics[width=\textwidth]{../out/graphs/eda/white_fixed_acidity_histogram.jpg}
-            \caption{Outliers na acidez fixa do vinho branco.}
-            \label{fig:white_fixed_acidity}
-        \end{minipage}
-    \end{figure}
+        \begin{tabular}{@{}lcc@{}}
+            \toprule
+            Vinho  & \textit{Outliers} & \textit{Nulls} \\
+            \midrule
+            Tinto  & 773               & 2              \\
+            Branco & 2627              & 1              \\
+            \bottomrule
+        \end{tabular}
+        \caption{Visão geral dos conjuntos de dados.}
+        \label{tab:dataset_overview}
+    \end{table}
 
     \subsection{Valores Nulos ou Ausentes}
     Seguidamente, tratamos da presença de valores nulos ou ausentes nos conjuntos de dados, convertendo os tipos de dados para os tipos mais adequados e substitui valores nulos ou ausentes por \texttt{pd.NA}.
