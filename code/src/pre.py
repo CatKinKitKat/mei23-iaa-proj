@@ -39,7 +39,7 @@ def eda(data, wine_type, fig_size=(10, 6)):
         plt.title(f'Histogram of {col}')
         col_name = col.replace(" ", "_")
 
-        fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / "eda" / f"{wine_type}_{col_name}_histogram.png"
+        fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / "eda" / f"{wine_type}_{col_name}_histogram.jpg"
         fig_save_path.parent.mkdir(parents=True, exist_ok=True)
         plt.savefig(fig_save_path)
         plt.close()
@@ -50,7 +50,7 @@ def correlation(data, wine_type, heatmap_size=(10, 8)):
     sns.heatmap(corr, annot=True)
     plt.title(f'Correlation Heatmap of {wine_type} Wine')
 
-    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_correlation.png"
+    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_correlation.jpg"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(fig_save_path)
 

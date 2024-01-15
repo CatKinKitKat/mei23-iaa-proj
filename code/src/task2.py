@@ -27,7 +27,7 @@ def confusion_matrix_heatmap(y_test, y_pred, name):
     plt.xlabel('Predicted')
     plt.title("Classifier Confusion Matrix")
 
-    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"task2_{name}_matrix.png"
+    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"task2_{name}_matrix.jpg"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(fig_save_path)

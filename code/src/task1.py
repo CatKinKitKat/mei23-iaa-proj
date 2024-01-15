@@ -28,7 +28,7 @@ def feature_importance_plot(model, x):
     plt.ylabel('Features')
     plt.title("Visualizing Important Features")
 
-    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"feature_importance.png"
+    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"feature_importance.jpg"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(fig_save_path)
