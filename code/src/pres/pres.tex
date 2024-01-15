@@ -1,0 +1,116 @@
+%! Author = gonca
+%! Date = 15 Jan 2024
+
+\documentclass{beamer}
+
+\title{\textbf{Análise de Dados de Vinhos Portugueses}}
+\author{\textbf{Gonçalo Candeias Amaro}}
+\date{15 Jan 2024}
+
+\begin{document}
+
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    \begin{frame}{Introdução}
+        \begin{itemize}
+            \item Pre-processamento e análise exploratória de dados.
+            \item Previsão de nível de álcool, tipo e qualidade do vinho.
+            \item Dúvidas e questões.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Análise Exploratória de Dados}
+        \begin{itemize}
+            \item Dados com 12 colunas numéricas.
+            \item Tratamento de \textit{outliers} e valores nulos.
+            \item Normalização dos dados com \texttt{RobustScaler}.
+            \item Fusão e exportação dos dados tratados.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tarefa de Regressão - Previsão de nível de álcool}
+        \begin{table}
+            \centering
+            \begin{tabular}{@{}lcc@{}}
+                \toprule
+                Modelo                          & MSE  & R2 Score \\ \midrule
+                Regressão Linear                & 0.11 & 0.71     \\
+                Regressão de Floresta Aleatória & 0.05 & 0.87     \\ \bottomrule
+            \end{tabular}
+            \caption{Resultados da tarefa de regressão.}
+            \label{tab:table3}
+        \end{table}
+        \begin{itemize}
+            \item Melhor modelo: Regressão de Floresta Aleatória.
+            \item Importância dos atributos analisada.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tarefa de Classificação - Previsão do tipo de vinho}
+        \begin{table}
+            \centering
+            \begin{tabular}{@{}lcccc@{}}
+                \toprule
+                Modelo              & Accuracy & F1 Score & Precisão & Recall \\
+                \midrule
+                Regressão Logística & 0.77     & 0.33     & 0.73     & 0.21   \\
+                Floresta Aleatória  & 0.97     & 0.94     & 1.0      & 0.90   \\
+                \bottomrule
+            \end{tabular}
+            \caption{Resultados da tarefa de classificação.}
+            \label{tab:table2}
+        \end{table}
+        \begin{itemize}
+            \item Melhor modelo: Floresta Aleatória.
+            \item Alta precisão e recall na classificação do tipo de vinho.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Tarefa de Previsão de Qualidade}
+        \begin{table}
+            \centering
+            \begin{tabular}{@{}lccc@{}}
+                \toprule
+                Modelo                        & MSE  & R2 Score & MAE  \\
+                \midrule
+                Gradient Boosting Regressor   & 0.33 & 0.37     & 0.47 \\
+                K-Nearest Neighbors Regressor & 0.35 & 0.32     & 0.46 \\
+                Linear Regression             & 0.37 & 0.27     & 0.50 \\
+                Random Forest Regressor       & 0.26 & 0.51     & 0.39 \\
+                Support Vector Regressor      & 0.32 & 0.37     & 0.44 \\
+                \bottomrule
+            \end{tabular}
+            \caption{Resultados da tarefa de previsão de qualidade.}
+            \label{tab:table}
+        \end{table}
+        \begin{itemize}
+            \item Melhor modelo: Random Forest Regressor.
+            \item Mais eficaz na previsão da qualidade dos vinhos.
+        \end{itemize}
+    \end{frame}
+
+
+    \begin{frame}{Conclusão}
+        \begin{itemize}
+            \item Análise abrangente de vinhos portugueses "Vinho Verde".
+            \item Modelos de machine learning aplicados com sucesso em tarefas de regressão e classificação.
+            \item Destaque para os modelos de Floresta Aleatória em várias tarefas.
+            \item Contribuição significativa para a compreensão e previsão de características importantes dos vinhos.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Referências}
+        \begin{itemize}
+            \item Towards Data Science, Wine Quality Prediction Using Machine Learning.
+            \item DataCamp, Random Forests Classifier Python.
+            \item DataCamp, SVM Classification Scikit-learn Python.
+            \item DataCamp, K-Nearest Neighbor Classification Scikit-learn.
+            \item DataCamp, Understanding Logistic Regression Python.
+            \item ChatGPT Queries, Debug python outputs.
+        \end{itemize}
+    \end{frame}
+
+
+\end{document}
