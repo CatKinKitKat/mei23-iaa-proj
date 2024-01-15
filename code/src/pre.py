@@ -30,14 +30,27 @@ def parse_and_clean(data):
     return data
 
 
-def eda(data, wine_type):
+def eda(data, wine_type, fig_size=(10, 6)):
     print(data.describe())
 
     for col in data.columns:
+        plt.figure(figsize=fig_size)
         sns.histplot(data[col], kde=True)
         plt.title(f'Histogram of {col}')
+        col_name = col.replace(" ", "_")
 
-    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_analysis.png"
+        fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / "eda" / f"{wine_type}_{col_name}_histogram.png"
+        fig_save_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(fig_save_path)
+        plt.close()
+
+def correlation(data, wine_type, heatmap_size=(10, 8)):
+    corr = data.corr()
+    plt.figure(figsize=heatmap_size)
+    sns.heatmap(corr, annot=True)
+    plt.title(f'Correlation Heatmap of {wine_type} Wine')
+
+    fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"{wine_type}_correlation.png"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(fig_save_path)
 
@@ -76,6 +89,11 @@ def main():
     eda(red_wine, "red")
     print("\nWhite Wine Data Analysis:")
     eda(white_wine, "white")
+
+    print("\nRed Wine Correlation Heatmap:")
+    correlation(red_wine, "red")
+    print("\nWhite Wine Correlation Heatmap:")
+    correlation(white_wine, "white")
 
     red_wine = handle_outliers(red_wine)
     white_wine = handle_outliers(white_wine)

@@ -30,6 +30,7 @@ def feature_importance_plot(model, x):
 
     fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"feature_importance.png"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
     plt.savefig(fig_save_path)
 
 

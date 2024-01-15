@@ -6,7 +6,7 @@ import seaborn as sns
 from joblib import dump
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix, f1_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split
 
 
@@ -29,6 +29,7 @@ def confusion_matrix_heatmap(y_test, y_pred, name):
 
     fig_save_path = Path.home() / "Desktop" / "56870" / "code" / "data" / "out" / "graphs" / f"task2_{name}_matrix.png"
     fig_save_path.parent.mkdir(parents=True, exist_ok=True)
+    plt.tight_layout()
     plt.savefig(fig_save_path)
 
 
@@ -40,10 +41,15 @@ def main():
     y = data['type']
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
+    fix_score = 'red'
+
     log_reg = LogisticRegression()
     log_reg.fit(x_train, y_train)
     y_pred = log_reg.predict(x_test)
     print("Logistic Regression Accuracy:", accuracy_score(y_test, y_pred))
+    print("Logistic Regression F1 Score:", f1_score(y_test, y_pred, pos_label=fix_score))
+    print("Logistic Regression Precision:", precision_score(y_test, y_pred, pos_label=fix_score))
+    print("Logistic Regression Recall:", recall_score(y_test, y_pred, pos_label=fix_score))
     save_model(log_reg, 'task2_logistic_regression_type.pk1')
 
     confusion_matrix_heatmap(y_test, y_pred, 'log_reg')
@@ -52,6 +58,9 @@ def main():
     rfc.fit(x_train, y_train)
     y_pred_rfc = rfc.predict(x_test)
     print("Random Forest Classifier Accuracy:", accuracy_score(y_test, y_pred_rfc))
+    print("Random Forest Classifier F1 Score:", f1_score(y_test, y_pred_rfc, pos_label=fix_score))
+    print("Random Forest Classifier Precision:", precision_score(y_test, y_pred_rfc, pos_label=fix_score))
+    print("Random Forest Classifier Recall:", recall_score(y_test, y_pred_rfc, pos_label=fix_score))
     save_model(rfc, 'task2_random_forest_type.pk1')
 
     confusion_matrix_heatmap(y_test, y_pred_rfc, 'rfc')
