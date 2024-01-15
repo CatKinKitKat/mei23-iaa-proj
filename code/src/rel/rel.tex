@@ -2,13 +2,14 @@
 \usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{url}
 \usepackage{booktabs}
 \usepackage{hyperref}
-\usepackage{verbatim}
 
-\title{Análise de Dados de Vinhos Portugueses}
-\author{Seu Nome}
-\date{Data do Relatório}
+\title{UÉvora\\IAA - MEI 2023/2024\\Projecto de Avaliação\\\textbf{Análise de Dados de Vinhos Portugueses}}
+\author{\textbf{Gonçalo Candeias Amaro}\\Número 56870}
+\date{15 Jan 2024}
 
 \begin{document}
 
@@ -28,17 +29,20 @@ Esta subsecção apresenta uma visão geral inicial dos conjuntos de dados.
 
 Foi possível observar que os conjuntos de dados possuem 12 colunas cada (acidez fixa, acidez volátil, ácido cítrico, açúcar residual, cloretos, dióxido de enxofre livre, dióxido de enxofre total, densidade, pH, sulfatos, álcool, qualidade).
 
-As colunas de atributos são todas numéricas. Os valores s#ao todos float64 ou int32.
+As colunas de atributos são todas numéricas. Os valores são todos float64 ou int32.
 
-Foi feito uma inspecao rapida onde se encontrou que havia outliers em algumas colunas, e três valores nulos no conjunto de dados de vinhos brancos e vermelhos.
+Foi feito uma inspeção rápida onde se encontrou que havia \textit{outliers} em algumas colunas, e três valores nulos no conjunto de dados de vinhos brancos e vermelhos.
 
-Como a imagem abaixo mostra, no vinho branco, na acidez fixa, existem um caso desses outliers:
+Como a imagem abaixo mostra, no vinho branco, na acidez fixa, existem um caso desses \textit{outliers}:
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/white_fixed_acidity_histogram.png}
-  \caption{Outliers na acidez fixa do vinho branco.}
-  \label{fig:outliers_white_fixed_acidity}
+  \begin{minipage}{0.90\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/eda/white_fixed_acidity_histogram.jpg}
+    \caption{Outliers na acidez fixa do vinho branco.}
+    \label{fig:white_fixed_acidity}
+  \end{minipage}
 \end{figure}
 
 \subsection{Valores Nulos ou Ausentes}
@@ -46,12 +50,12 @@ Seguidamente, tratamos da presença de valores nulos ou ausentes nos conjuntos d
 
 Com isso, foi possível observar que os conjuntos de dados não possuem mais valores nulos ou ausentes. O valor \texttt{pd.NA} já é um valor nulo, mas é tratado de forma diferente pelo pandas. Com isto em mente, podemos dizer que os conjuntos de dados não possuem mais valores nulos ou ausentes (os quais possam dar problemas na análise).
 
-\subsection{Detecção de Outliers e Tratamento}
-Para identificar e tratar outliers, utilizamos o \texttt{winsorize} da biblioteca \texttt{scipy.stats} para substituir os outliers por valores próximos aos limites do intervalo de confiança.
+\subsection{Detecção de \textit{outliers} e Tratamento}
+Para identificar e tratar \textit{outliers}, utilizamos o \texttt{winsorize} da biblioteca \texttt{scipy.stats} para substituir os \textit{outliers} por valores próximos aos limites do intervalo de confiança.
 
-\texttt{Winsorize} é uma função que recebe um array e retorna um array com os outliers substituídos. O parâmetro \texttt{limits} é um tuple que define os limites do intervalo de confiança. Neste caso, os limites são 0.05 e 0.95, o que significa que os valores abaixo do percentile 5 e acima do percentile 95 serão substituídos.
+\texttt{Winsorize} é uma função que recebe um array e retorna um array com os \textit{outliers} substituídos. O parâmetro \texttt{limits} é um tuple que define os limites do intervalo de confiança. Neste caso, os limites são 0.05 e 0.95, o que significa que os valores abaixo do percentile 5 e acima do percentile 95 serão substituídos.
 
-O tratamento dos tipos de dados já está incluído na função parse_and_clean, ao qual foi força a conversão de todos os valores para o tipo correto.
+O tratamento dos tipos de dados já está incluído na função \texttt{parse\_and\_clean}, que força a conversão de todos os valores para o tipo correto.
 
 \subsection{Normalização dos Dados}
 Para normalizar os dados, utilizamos o \texttt{RobustScaler}. Em que os dados são normalizados usando a seguinte fórmula:
@@ -61,7 +65,7 @@ Para normalizar os dados, utilizamos o \texttt{RobustScaler}. Em que os dados s�
 \end{equation}
 
 Onde $Q_1(X)$ é o primeiro quartil e $Q_3(X)$ é o terceiro quartil.
-Este metodo por si já trata os outliers, pois o \texttt{RobustScaler} é um método robusto, no entanto, foi utilizado o método \texttt{handle\_outliers} para garantir que os outliers fossem tratados antes da normalização.
+Este metodo por si já trata os \textit{outliers}, pois o \texttt{RobustScaler} é um método robusto, no entanto, foi utilizado o método \texttt{handle\_\textit{outliers}} para garantir que os \textit{outliers} fossem tratados antes da normalização.
 
 É tambem resistentes a \textit{pd.NA}.
 
@@ -84,18 +88,21 @@ A correlação entre atributos foi analisada usando o método \texttt{corr} da b
 
 O gráfico de correlação gerado para os vinhos tintos é apresentado na Figura~\ref{fig:corr_red} e o gráfico de correlação gerado para os vinhos brancos é apresentado na Figura~\ref{fig:corr_white}.
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/red_correlation.png}
-  \caption{Mapa de calor da correlação entre os atributos dos vinhos tintos.}
-  \label{fig:corr_red}
-\end{figure}
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/white_correlation.png}
-  \caption{Mapa de calor da correlação entre os atributos dos vinhos brancos.}
-  \label{fig:corr_white}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/red_correlation.jpg}
+    \caption{Mapa de calor da correlação entre os atributos dos vinhos tintos.}
+    \label{fig:corr_red}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/white_correlation.jpg}
+    \caption{Mapa de calor da correlação entre os atributos dos vinhos brancos.}
+    \label{fig:corr_white}
+  \end{minipage}
 \end{figure}
 
 Como podemos observar, os atributos mais correlacionados com a qualidade são o álcool e a acidez volátil. Os atributos mais correlacionados com o álcool são a densidade e o açúcar residual. Os atributos mais correlacionados com a acidez volátil são o ácido cítrico e o pH.
@@ -113,19 +120,6 @@ Para prever o nível de álcool, utilizamos os seguintes modelos:
 \end{enumerate}
 
 Os quais foram implementados usando o ficheiro: \texttt{src/task1.py}.
-
-O output do código acima é apresentado a seguir:
-
-\begin{verbatim}
-  Linear Regression MSE: 0.11231851016651878
-Linear Regression R2 Score: 0.7099030226588107
-Linear Regression MAE: 0.2594028031889842
-Random Forest Regressor MSE: 0.05065648568715602
-Random Forest Regressor R2 Score: 0.8691640998550947
-Random Forest Regressor MAE: 0.15210464478057667
-\end{verbatim}
-
-Ou seja.
 
 Com estes modelos, obtivemos os seguintes resultados:
 
@@ -147,9 +141,12 @@ Não só sendo melhor na previsão como tambem nos proporciona a a oportunidade 
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/feature_importance.png}
-  \caption{Importância dos atributos para a previsão do nível de álcool.}
-  \label{fig:task1_feature_importance}
+  \begin{minipage}{0.90\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/feature_importance.jpg}
+    \caption{Importância dos atributos para a previsão do nível de álcool.}
+    \label{fig:task1_feature_importance}
+  \end{minipage}
 \end{figure}
 
 Como podemos observar na Figura \ref{fig:task1_feature_importance}, os atributos mais importantes para a previsão do nível de álcool são a densidade, o açúcar residual e o pH.
@@ -169,22 +166,7 @@ Para prever o tipo de vinho, utilizamos os seguintes modelos:
 
 Os quais foram implementados usando o ficheiro: \texttt{src/task2.py}.
 
-O output do código acima é apresentado a seguir:
-
-\begin{verbatim}
-  Logistic Regression Accuracy: 0.7735042735042735
-  Logistic Regression F1 Score: 0.32569974554707376
-  Logistic Regression Precision: 0.7272727272727273
-  Logistic Regression Recall: 0.2098360655737705
-  Random Forest Classifier Accuracy: 0.9726495726495726
-  Random Forest Classifier F1 Score: 0.9446366782006921
-  Random Forest Classifier Precision: 1.0
-  Random Forest Classifier Recall: 0.8950819672131147
-\end{verbatim}
-
-Ou seja.
-
-Com estes modelos, obtivemos os seguintes resultados:
+om estes modelos, obtivemos os seguintes resultados:
 
 \begin{table}[ht]
   \centering
@@ -198,33 +180,35 @@ Com estes modelos, obtivemos os seguintes resultados:
   \label{tab:task2_results}
 \end{table}
 
-E temos que a matriz de confusão para o modelo de floresta aleatória é a seguinte:
-
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/task2_log_reg_matrix.png}
-  \caption{Matriz de confusão para o modelo de floresta aleatória.}
-  \label{fig:task2_confusion_matrix}
-\end{figure}
-
-E para o modelo de regressão logística:
-
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/task2_rfc_matrix.png}
-  \caption{Matriz de confusão para o modelo de regressão logística.}
-  \label{fig:task2_confusion_matrix}
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/task2_log_reg_matrix.jpg}
+    \caption{Matriz de confusão para o modelo de floresta aleatória.}
+    \label{fig:task2_random_forest_matrix}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/task2_log_reg_matrix.jpg}
+    \caption{Matriz de confusão para o modelo de regressão logística.}
+    \label{fig:task2_log_reg_matrix}
+  \end{minipage}
 \end{figure}
 
 Com base nos resultados apresentados na Tabela~\ref{tab:task2_results}, podemos concluir que o modelo de floresta aleatória é o mais adequado para prever o tipo de vinho. Este modelo obteve uma \textit{accuracy} de 0.97, um F1 Score de 0.94, uma precisão de 1.0 e um \textit{recall} de 0.90, enquanto que o modelo de regressão logística obteve uma \textit{accuracy} de 0.77, um F1 Score de 0.33, uma precisão de 0.73 e um \textit{recall} de 0.21.
 
 Continuando a moda anterior dos modelos de floresta aleatória serem os melhores para este caso de estudo especifico.
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \includegraphics[width=0.8\textwidth]{../out/graphs/confusion_matrix.png}
-  \caption{Matriz de confusão para o modelo de floresta aleatória.}
-  \label{fig:task2_confusion_matrix}
+  \begin{minipage}{0.90\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{../out/graphs/task2_rfc_matrix.jpg}
+    \caption{Matriz de confusão para o modelo de floresta aleatória.}
+    \label{fig:task2_random_forest_matrix}
+  \end{minipage}
 \end{figure}
 
 \section{Tarefa de previsão de qualidade}
@@ -243,29 +227,7 @@ Para prever a qualidade dos vinhos, utilizamos os seguintes modelos:
   \item \textit{Support Vector Regressor}
 \end{enumerate}
 
-Os quais foram implementados usando o fichero: \texttt{src/task3.py}.
-
-O output do código acima é apresentado a seguir:
-
-\begin{verbatim}
-  Linear Regression MSE: 0.3791330547891043
-  Linear Regression R2 Score: 0.27383190985246364
-  Linear Regression MAE: 0.508457234349973
-  Gradient Boosting Regressor MSE: 0.3294945025105814
-  Gradient Boosting Regressor R2 Score: 0.3689065340522302
-  Gradient Boosting Regressor MAE: 0.47205398588447034
-  KNN Regressor MSE: 0.3535384615384615
-  KNN Regressor R2 Score: 0.3228542165707762
-  KNN Regressor MAE: 0.46273504273504273
-  SVR MSE: 0.329904406833089
-  SVR R2 Score: 0.3681214285720864
-  SVR MAE: 0.44742076150170534
-  Random Forest Regressor MSE: 0.2580932478632479
-  Random Forest Regressor R2 Score: 0.5056640973046184
-  Random Forest Regressor MAE: 0.39195726495726496
-\end{verbatim}
-
-Ou seja.
+Os quais foram implementados usando o ficheiro: \texttt{src/task3.py}.
 
 Com estes modelos, obtivemos os seguintes resultados:
 
@@ -289,20 +251,36 @@ Com base nos resultados apresentados na Tabela~\ref{tab:task3_results}, podemos 
 A \textit{trend} continua, o modelo de floresta aleatória é o melhor para este caso de estudo.
 
 \section{Conclusão}
-Nesta secção, apresentamos as conclusões do projeto.
-
-\subsection{Conclusões}
 Foi efetuada uma análise exploratória de dados e foram implementados modelos de machine learning para previsão de qualidade e teor alcoólico, bem como a distinção entre vinhos tintos e brancos. Os modelos de floresta aleatória foram os mais adequados para prever o teor alcoólico, o tipo de vinho e a qualidade dos vinhos.
 
-\section{Referências}
+\newpage
 
-\begin{enumerate}
-  \item \url{https://towardsdatascience.com/wine-quality-prediction-using-machine-learning-9c5cbc8b148b}
-  \item \url{https://www.datacamp.com/community/tutorials/random-forests-classifier-python}
-  \item \url{https://www.datacamp.com/community/tutorials/svm-classification-scikit-learn-python}
-  \item \url{https://www.datacamp.com/community/tutorials/k-nearest-neighbor-classification-scikit-learn}
-  \item \url{https://www.datacamp.com/community/tutorials/understanding-logistic-regression-python}
-  \item \url{https://chat.openai.com/}
-\end{enumerate}
+\begin{thebibliography}{9}
+
+\bibitem{winequality}
+Towards Data Science.
+\url{https://towardsdatascience.com/wine-quality-prediction-using-machine-learning-9c5cbc8b148b}.
+
+\bibitem{randomforests}
+DataCamp.
+\url{https://www.datacamp.com/community/tutorials/random-forests-classifier-python}.
+
+\bibitem{svm}
+DataCamp.
+\url{https://www.datacamp.com/community/tutorials/svm-classification-scikit-learn-python}.
+
+\bibitem{knn}
+DataCamp.
+\url{https://www.datacamp.com/community/tutorials/k-nearest-neighbor-classification-scikit-learn}.
+
+\bibitem{logisticregression}
+DataCamp.
+\url{https://www.datacamp.com/community/tutorials/understanding-logistic-regression-python}.
+
+\bibitem{chatopenai}
+ChatGPT Queries. (Debug python outputs)
+\url{https://chat.openai.com/}.
+
+\end{thebibliography}
 
 \end{document}
